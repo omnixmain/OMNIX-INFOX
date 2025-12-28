@@ -507,7 +507,18 @@
                     return;
                 }
 
-                typeWriterJSON(data);
+                // Filter output: Show only 'result', remove owner info
+                if (data.result) {
+                    typeWriterJSON(data.result);
+                } else {
+                    // If no 'result' key, strip specific fields
+                    delete data.owner;
+                    delete data.developer;
+                    delete data.powered_by;
+                    delete data.status;
+                    delete data.query;
+                    typeWriterJSON(data);
+                }
 
             } catch (err) {
                 console.error(err);
